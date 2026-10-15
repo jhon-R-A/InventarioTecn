@@ -1,0 +1,446 @@
+
+
+
+/* =========================================
+   PANTALLA PRINCIPAL - PC
+========================================= */
+
+.login-page {
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 15px;
+
+  box-sizing: border-box;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at top left,
+      #667eea,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      #764ba2,
+      transparent 40%
+    ),
+    #111827;
+}
+
+
+/* =========================================
+   TARJETA
+========================================= */
+
+.login-card {
+  width: 100%;
+  max-width: 450px;
+
+  border-radius: 22px !important;
+
+  background: rgba(255, 255, 255, 0.97);
+
+  overflow: hidden;
+
+  animation: aparecer 0.5s ease;
+}
+
+
+@keyframes aparecer {
+
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+
+/* =========================================
+   CONTENIDO
+========================================= */
+
+.login-card .card-body {
+  padding: 25px 30px !important;
+}
+
+
+.logo-circle {
+
+  width: 55px;
+  height: 55px;
+
+  margin: 0 auto;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 24px;
+
+  background: linear-gradient(
+    135deg,
+    #667eea,
+    #764ba2
+  );
+
+  box-shadow:
+    0 8px 20px rgba(102, 126, 234, 0.35);
+}
+
+
+.login-card h2 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+
+
+.login-card p {
+  margin-bottom: 12px;
+}
+
+
+/* =========================================
+   FORMULARIO
+========================================= */
+
+.form-label {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+
+.form-control {
+  padding: 10px 12px;
+  border-radius: 9px;
+}
+
+
+.form-control:focus {
+  border-color: #667eea;
+
+  box-shadow:
+    0 0 0 0.15rem rgba(102, 126, 234, 0.15);
+}
+
+
+/* =========================================
+   BOTONES
+========================================= */
+
+.auth-buttons {
+  display: flex;
+
+  background: #f1f3f6;
+
+  padding: 4px;
+
+  border-radius: 10px;
+}
+
+
+.auth-buttons button {
+  flex: 1;
+
+  border: none;
+
+  padding: 9px;
+
+  border-radius: 8px;
+
+  transition: 0.3s;
+}
+
+
+.active-button {
+  background: linear-gradient(
+    135deg,
+    #667eea,
+    #764ba2
+  ) !important;
+
+  color: white !important;
+}
+
+
+.inactive-button {
+  background: transparent !important;
+  color: #555 !important;
+}
+
+
+.login-submit {
+
+  border: none !important;
+
+  padding: 11px;
+
+  border-radius: 10px;
+
+  font-weight: 600;
+
+  font-size: 15px;
+
+  background: linear-gradient(
+    135deg,
+    #667eea,
+    #764ba2
+  ) !important;
+
+  transition: 0.3s;
+}
+
+
+.login-submit:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(102, 126, 234, 0.35);
+}
+
+
+/* =========================================
+   SEPARADOR
+========================================= */
+
+.separator {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin: 14px 0;
+
+  color: #999;
+
+  font-size: 13px;
+}
+
+
+.separator::before,
+.separator::after {
+
+  content: "";
+
+  height: 1px;
+
+  background: #ddd;
+
+  flex: 1;
+}
+
+
+/* =========================================
+   REDES
+========================================= */
+
+.social-buttons {
+
+  display: flex;
+
+  gap: 10px;
+}
+
+
+.social-buttons button {
+
+  flex: 1;
+
+  border-radius: 9px;
+
+  padding: 9px;
+
+  border: 1px solid #ddd;
+}
+
+
+/* =========================================
+   ENLACES
+========================================= */
+
+.forgot-password {
+
+  color: #667eea;
+
+  text-decoration: none;
+
+  font-size: 13px;
+}
+
+
+.link-button {
+
+  border: none;
+
+  background: transparent;
+
+  color: #667eea;
+
+  font-weight: 600;
+
+  padding: 0;
+}
+
+
+/* =========================================
+   TABLETS
+========================================= */
+
+@media (max-width: 768px) {
+
+  .login-page {
+
+    min-height: 90vh;
+
+    padding: 25px 15px;
+
+  }
+
+  .login-card {
+
+    max-width: 440px;
+
+  }
+
+}
+
+
+/* =========================================
+   CELULARES
+========================================= */
+
+@media (max-width: 576px) {
+
+  /*
+    En celular permitimos scroll
+  */
+
+  html,
+  body,
+  #root {
+
+    min-height: 100%;
+    height: auto;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+
+  .login-page {
+
+    width: 100%;
+
+    min-height: 100dvh;
+    height: auto;
+
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: center;
+
+    padding: 20px 10px;
+
+    overflow: visible;
+  }
+
+
+  .login-card {
+
+    width: 100%;
+
+    max-width: 100%;
+
+    margin: 0 auto;
+
+    border-radius: 18px !important;
+  }
+
+
+  .login-card .card-body {
+
+    padding: 22px 18px !important;
+  }
+
+
+  .logo-circle {
+
+    width: 52px;
+    height: 52px;
+
+    font-size: 22px;
+  }
+
+
+  .login-card h2 {
+
+    font-size: 21px;
+  }
+
+
+  .login-card p {
+
+    font-size: 13px;
+  }
+
+
+  .auth-buttons button {
+
+    padding: 8px;
+
+    font-size: 13px;
+  }
+
+
+  .form-label {
+
+    font-size: 13px;
+  }
+
+
+  .form-control {
+
+    padding: 9px 10px;
+
+    font-size: 14px;
+  }
+
+
+  .login-submit {
+
+    padding: 10px;
+
+    font-size: 14px;
+  }
+
+
+  .social-buttons {
+
+    flex-direction: column;
+
+    gap: 7px;
+  }
+
+
+  .social-buttons button {
+
+    padding: 8px;
+  }
+
+}

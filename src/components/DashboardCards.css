@@ -1,0 +1,191 @@
+.dashboard-cards {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 20px;
+
+  width: 100%;
+}
+
+
+/* CARD */
+
+.dashboard-card {
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 14px;
+
+  padding: 22px;
+
+  min-width: 0;
+
+  box-shadow:
+    0 2px 6px rgba(15, 23, 42, 0.04);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+
+.dashboard-card:hover {
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 8px 20px rgba(15, 23, 42, 0.08);
+}
+
+
+/* HEADER */
+
+.card-header {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 18px;
+}
+
+
+.card-icon {
+  width: 44px;
+  height: 44px;
+
+  border-radius: 11px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+}
+
+
+.card-icon.primary {
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+
+.card-icon.success {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+
+.card-icon.warning {
+  background: #fffbeb;
+  color: #d97706;
+}
+
+
+.card-icon.danger {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+
+.card-title {
+  color: #64748b;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+
+/* VALOR */
+
+.card-value {
+  color: #111827;
+
+  font-size: 28px;
+
+  font-weight: 700;
+
+  line-height: 1.2;
+
+  margin-bottom: 12px;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+}
+
+
+/* FOOTER */
+
+.card-footer {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  flex-wrap: wrap;
+}
+
+
+.percentage {
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+
+.percentage.positive {
+  color: #059669;
+}
+
+
+.percentage.negative {
+  color: #dc2626;
+}
+
+
+.card-description {
+  color: #94a3b8;
+
+  font-size: 12px;
+}
+
+
+/* TABLET */
+
+@media (max-width: 1200px) {
+
+  .dashboard-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+
+/* CELULAR */
+
+@media (max-width: 576px) {
+
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+
+    gap: 14px;
+  }
+
+
+  .dashboard-card {
+    padding: 18px;
+  }
+
+
+  .card-value {
+    font-size: 25px;
+  }
+
+}
+

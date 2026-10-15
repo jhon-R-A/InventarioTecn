@@ -1,0 +1,824 @@
+/* =========================================================
+   styles.css  ·  ARCHIVO ÚNICO (reemplaza al CSS viejo de la
+   plantilla y a layout.css). Importar una sola vez, en
+   Baselayout.jsx o en main.jsx.
+ 
+   ÍNDICE
+   1. Fuentes
+   2. Variables
+   3. Base
+   4. Utilidades de texto
+   5. Componentes de página (headers, tabs, formularios)
+   6. Ajustes de Bootstrap (tablas, paginación, inputs)
+   7. Login
+   8. Layout (main-container + page-content)
+   9. Navbar (incluye botón hamburguesa)
+  10. Sidebar
+  11. Home (tiles)
+  12. Accesibilidad
+   ========================================================= */
+ 
+ 
+/* =========================================================
+   1. FUENTES
+   (las rutas son relativas a ESTE archivo css)
+   ========================================================= */
+@font-face {
+  font-family: 'roboto_medium_regular';
+  src: url('../webfonts/roboto-medium-webfont.woff2') format('woff2'),
+       url('../webfonts/roboto-medium-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+ 
+@font-face {
+  font-family: 'roboto_condensed_light';
+  src: url('../webfonts/robotocondensed-light-webfont.woff2') format('woff2'),
+       url('../webfonts/robotocondensed-light-webfont.woff') format('woff'),
+       url('../webfonts/robotocondensed-light-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+ 
+@font-face {
+  font-family: 'roboto_condensed_regular';
+  src: url('../webfonts/robotocondensed-regular-webfont.woff2') format('woff2'),
+       url('../webfonts/robotocondensed-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+ 
+ 
+/* =========================================================
+   2. VARIABLES
+   ========================================================= */
+:root {
+  /* Plantilla original */
+  --color-one: #F5F5F5;
+  --color-two: #24292E;
+  --color-three: #EC5252;
+  --form-color: #14111A;
+  --accent-color: #253556;
+  --border-color: #D8D8D8;
+ 
+  /* Tipografías */
+  --font-light: 'roboto_condensed_light', 'Roboto', system-ui, sans-serif;
+  --font-regular: 'roboto_condensed_regular', 'Roboto', system-ui, sans-serif;
+  --font-medium: 'roboto_medium_regular', 'Roboto', system-ui, sans-serif;
+ 
+  /* Sidebar
+     Para usar los colores de la plantilla original:
+     --sb-bg: var(--color-two);  --sb-accent: var(--color-three);
+     --sb-accent-ink: #fff;                                       */
+  --sb-width: 270px;
+  --sb-bg: #12202b;
+  --sb-surface: #1b2f3e;
+  --sb-surface-hover: #223a4b;
+  --sb-border: rgba(255, 255, 255, 0.08);
+  --sb-text: #dbe5ec;
+  --sb-muted: #8aa0b0;
+  --sb-accent: #f2b84b;
+  --sb-accent-ink: #1b1405;
+  --sb-radius: 10px;
+ 
+  /* Navbar y página */
+  --nav-height: 64px;
+  --nav-bg: #ffffff;
+  --nav-border: #e3e9ee;
+  --nav-ink: #12202b;
+  --nav-muted: #5f7383;
+  --page-bg: #f1f5f8;
+ 
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+ 
+ 
+/* =========================================================
+   3. BASE
+   ========================================================= */
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  font-family: var(--font-light);
+  font-size: 16px;
+  color: #333;
+  background-color: var(--page-bg);
+}
+ 
+/* IMPORTANTE: .full-box va ANTES del layout para que reglas
+   como .page-content o .navbar-info puedan ponerle su padding */
+.full-box {
+  display: block;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  width: 100%;
+}
+ 
+ 
+/* =========================================================
+   4. UTILIDADES DE TEXTO
+   ========================================================= */
+.roboto-medium {
+  font-family: var(--font-medium);
+}
+.roboto-condensed-light {
+  font-family: var(--font-light);
+}
+.roboto-condensed-regular {
+  font-family: var(--font-regular);
+}
+ 
+ 
+/* =========================================================
+   5. COMPONENTES DE PÁGINA
+   ========================================================= */
+.form-neon {
+  border: 1px solid var(--border-color);
+  background-color: #FFF;
+  padding: 15px;
+  border-radius: 3px;
+}
+ 
+/* Page headers */
+.page-header {
+  padding: 30px 20px 60px 20px;
+}
+.page-header > :nth-child(1) {
+  padding-bottom: 7px;
+}
+.page-header > :nth-child(2) {
+  font-size: 18px;
+}
+ 
+/* Page nav tabs */
+.page-nav-tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+.page-nav-tabs li,
+.page-nav-tabs li a {
+  height: 40px;
+  line-height: 40px;
+}
+.page-nav-tabs li {
+  margin: 5px 20px;
+}
+.page-nav-tabs li a {
+  display: block;
+  width: auto;
+  min-width: 200px;
+  text-align: center;
+  font-size: 17px;
+  color: var(--accent-color);
+  user-select: none;
+  border-bottom: 2px solid transparent;
+  transition: all .2s ease-in-out;
+}
+.page-nav-tabs li a.active {
+  color: var(--color-three);
+  cursor: none;
+  pointer-events: none;
+}
+.page-nav-tabs li a:hover {
+  text-decoration: none;
+  color: #333;
+  border-bottom: 2px solid #333;
+}
+ 
+ 
+/* =========================================================
+   6. AJUSTES DE BOOTSTRAP
+   ========================================================= */
+.form-control[readonly] {
+  background-color: transparent;
+}
+.form-control:focus,
+.form-control:active {
+  outline: none;
+  box-shadow: none;
+  border: none;
+}
+.form-control-file:active,
+.form-control-file:focus {
+  outline: none;
+}
+ 
+/* Tablas */
+.table .btn {
+  margin-bottom: 0;
+}
+.table thead th {
+  color: #FFF;
+}
+.table tbody tr {
+  color: #333;
+  transition: all .2s ease-in-out;
+}
+.table-dark,
+.table {
+  background-color: #fff;
+}
+.table-dark {
+  border: 1px solid var(--accent-color);
+}
+.table-dark thead tr {
+  background-color: var(--accent-color);
+}
+.table-dark td,
+.table-dark thead th,
+.table-dark th {
+  border: none;
+}
+.table-dark tr:hover {
+  color: var(--color-three);
+  background-image: linear-gradient(to right, transparent, rgba(124, 100, 112, .2) 85%, transparent);
+}
+table form {
+  margin-bottom: 0;
+}
+ 
+/* Paginación */
+.page-link {
+  transition: all .2s ease-in-out;
+}
+.page-link:hover {
+  background-color: var(--color-three);
+  color: #FFF;
+}
+ 
+ 
+/* =========================================================
+   7. LOGIN
+   ========================================================= */
+.login-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0575E6;
+  background: -webkit-linear-gradient(to right, #021B79, #0575E6);
+  background: linear-gradient(to right, #021B79, #0575E6);
+}
+.login-content {
+  width: 95%;
+  max-width: 320px;
+  height: auto;
+  border: 1px solid var(--border-color);
+  background-color: #FFF;
+  border-radius: 4px;
+  padding: 15px;
+  color: var(--accent-color);
+}
+.btn-login {
+  display: block;
+  width: 90%;
+  margin: 30px auto 0;
+  padding: 10px 0;
+  border-radius: 3px;
+  background-color: transparent;
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+  transition: all .2s ease-out;
+}
+.btn-login:hover {
+  background-color: var(--color-three);
+  border: 1px solid var(--color-three);
+  text-decoration: none;
+  color: #fff;
+}
+.btn-login:active,
+.btn-login:focus {
+  outline: none;
+}
+ 
+ 
+/* =========================================================
+   8. LAYOUT  (Baselayout.jsx)
+   Estructura:  main.main-container
+                 ├─ Sidebar      (fixed)
+                 ├─ NavbarMenu   (sticky)
+                 └─ section.page-content
+   La clase .sidebar-is-open la pone Baselayout cuando el
+   menú está abierto.
+   ========================================================= */
+.main-container {
+  min-height: 100vh;
+  color: var(--nav-ink);
+  background: var(--page-bg);
+  font-family: var(--font-light);
+  transition: padding-left 0.3s var(--ease);
+}
+ 
+.main-container,
+.main-container * {
+  box-sizing: border-box;
+}
+ 
+.page-content {
+  padding: 28px 24px 40px;
+}
+ 
+@media (min-width: 768px) {
+  .main-container.sidebar-is-open {
+    padding-left: var(--sb-width);
+  }
+ 
+  .page-content {
+    padding: 32px 36px 48px;
+  }
+}
+ 
+ 
+/* =========================================================
+   9. NAVBAR  (NavbarMenu.jsx)
+   nav.navbar-info
+    ├─ .navbar-left
+    │    └─ button.navbar-menu-button   ← HAMBURGUESA
+    └─ .navbar-actions
+         ├─ .icon-button  (+ .notification-dot)
+         └─ Dropdown → .user-button (+ .user-label), .logout
+   ========================================================= */
+.navbar-info {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--nav-height);
+  padding: 0 20px;
+  background: var(--nav-bg);
+  border-bottom: 1px solid var(--nav-border);
+  box-shadow: 0 1px 8px rgba(18, 32, 43, 0.05);
+}
+ 
+.navbar-left,
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+ 
+@media (min-width: 768px) {
+  .navbar-info {
+    padding: 0 36px;
+  }
+}
+ 
+/* ---- Botón hamburguesa (visible en todos los tamaños) ---- */
+.navbar-menu-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  color: var(--nav-ink);
+  background: transparent;
+  border: 0;
+  border-radius: var(--sb-radius);
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.navbar-menu-button:hover {
+  background: var(--page-bg);
+  color: var(--accent-color);
+}
+.navbar-menu-button:active {
+  transform: scale(0.94);
+}
+.navbar-menu-button:focus-visible {
+  outline: 2px solid var(--sb-accent);
+  outline-offset: 2px;
+}
+ 
+/* ---- Notificaciones ---- */
+.navbar-actions .btn.icon-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  color: var(--nav-muted);
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.navbar-actions .btn.icon-button:hover,
+.navbar-actions .btn.icon-button:active,
+.navbar-actions .btn.icon-button:focus-visible {
+  color: var(--nav-ink);
+  background: var(--page-bg);
+}
+ 
+.notification-dot {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  width: 9px;
+  height: 9px;
+  background: var(--sb-accent);
+  border: 2px solid var(--nav-bg);
+  border-radius: 50%;
+}
+ 
+/* ---- Usuario ---- */
+.navbar-actions .btn.user-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px 5px 6px;
+  color: var(--nav-ink);
+  background: transparent;
+  border: 1px solid var(--nav-border);
+  border-radius: 999px;
+  font-family: var(--font-medium);
+  font-size: 0.95rem;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.navbar-actions .btn.user-button:hover,
+.navbar-actions .btn.user-button:active,
+.navbar-actions .btn.user-button.show,
+.navbar-actions .btn.user-button:focus-visible {
+  color: var(--nav-ink);
+  background: var(--page-bg);
+  border-color: #cdd7df;
+}
+.navbar-actions .btn.user-button svg {
+  color: var(--sb-bg);
+}
+.navbar-actions .btn.user-button::after {
+  margin-left: 4px;
+  color: var(--nav-muted);
+}
+.navbar-actions .btn:focus-visible {
+  outline: 2px solid var(--sb-accent);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+ 
+@media (max-width: 575.98px) {
+  .user-label {
+    display: none;
+  }
+  .navbar-actions .btn.user-button {
+    padding: 5px 8px 5px 6px;
+  }
+}
+ 
+/* ---- Menú desplegable ---- */
+.navbar-actions .dropdown-menu {
+  min-width: 210px;
+  margin-top: 8px !important;
+  padding: 6px;
+  background: var(--nav-bg);
+  border: 1px solid var(--nav-border);
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(18, 32, 43, 0.14);
+  font-family: var(--font-regular);
+  font-size: 1rem;
+}
+.navbar-actions .dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 9px 12px;
+  color: var(--nav-ink);
+  border-radius: 8px;
+  transition: background 0.15s var(--ease);
+}
+.navbar-actions .dropdown-item:hover,
+.navbar-actions .dropdown-item:focus {
+  color: var(--nav-ink);
+  background: var(--page-bg);
+}
+.navbar-actions .dropdown-divider {
+  margin: 6px 4px;
+  border-color: var(--nav-border);
+}
+.navbar-actions .dropdown-item.logout {
+  color: #c0392b;
+}
+.navbar-actions .dropdown-item.logout:hover {
+  color: #a5281b;
+  background: #fdecea;
+}
+ 
+ 
+/* =========================================================
+   10. SIDEBAR  (Sidebar.jsx)
+   Cerrado por defecto; se abre con .sidebar-open en CUALQUIER
+   tamaño de pantalla. Baselayout controla el estado.
+   ========================================================= */
+.nav-lateral {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1040;
+  width: var(--sb-width);
+  max-width: 85vw;
+  height: 100vh;
+  background: var(--sb-bg);
+  color: var(--sb-text);
+  font-family: var(--font-regular);
+  border-right: 1px solid var(--sb-border);
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition: transform 0.3s var(--ease), visibility 0s linear 0.3s;
+}
+.nav-lateral.sidebar-open {
+  transform: translateX(0);
+  visibility: visible;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s var(--ease), visibility 0s;
+}
+ 
+.nav-lateral-content {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 24px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--sb-surface-hover) transparent;
+}
+.nav-lateral-content::-webkit-scrollbar {
+  width: 6px;
+}
+.nav-lateral-content::-webkit-scrollbar-thumb {
+  background: var(--sb-surface-hover);
+  border-radius: 6px;
+}
+ 
+/* ---- Avatar ---- */
+.nav-lateral-avatar {
+  position: relative;
+  margin: 0;
+  padding: 32px 20px 22px;
+  text-align: center;
+  background: linear-gradient(180deg, var(--sb-surface) 0%, var(--sb-bg) 100%);
+}
+.nav-lateral-avatar img {
+  display: block;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 14px;
+  padding: 3px;
+  object-fit: cover;
+  background: var(--sb-bg);
+  border: 3px solid var(--sb-accent);
+  border-radius: 50%;
+}
+.nav-lateral-avatar figcaption {
+  font-size: 1.1rem;
+  line-height: 1.35;
+  color: #fff;
+}
+.nav-lateral-avatar figcaption small {
+  font-size: 0.9rem;
+  color: var(--sb-muted);
+}
+ 
+.sidebar-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  font-size: 1.5rem;
+  color: var(--sb-text);
+  background: rgba(255, 255, 255, 0.06);
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s, transform 0.2s var(--ease);
+}
+.sidebar-close:hover {
+  color: var(--sb-accent-ink);
+  background: var(--sb-accent);
+  transform: rotate(90deg);
+}
+ 
+.nav-lateral-bar {
+  height: 1px;
+  margin: 0 0 14px;
+  background: var(--sb-border);
+}
+ 
+/* ---- Menú ---- */
+.nav-lateral-menu {
+  padding: 0 12px;
+}
+.nav-lateral-menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.nav-lateral-menu > ul > li {
+  margin-bottom: 4px;
+}
+ 
+.nav-lateral-menu a,
+.nav-btn-submenu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: auto;
+  padding: 11px 14px;
+  font-family: var(--font-regular);
+  font-size: 1.05rem;
+  line-height: 1.4;
+  text-align: left;
+  text-decoration: none;
+  color: var(--sb-text);
+  background: transparent;
+  border: 0;
+  border-radius: var(--sb-radius);
+  cursor: pointer;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.nav-lateral-menu a {
+  justify-content: flex-start;
+  gap: 2px;
+}
+.nav-lateral-menu a:hover,
+.nav-btn-submenu:hover {
+  color: #fff;
+  background: var(--sb-surface);
+}
+ 
+.nav-lateral-menu svg {
+  flex-shrink: 0;
+  font-size: 1.05rem;
+  color: var(--sb-muted);
+  transition: color 0.2s;
+}
+.nav-lateral-menu a:hover svg,
+.nav-btn-submenu:hover svg {
+  color: var(--sb-accent);
+}
+ 
+.nav-lateral-menu a:focus-visible,
+.nav-btn-submenu:focus-visible,
+.sidebar-close:focus-visible {
+  outline: 2px solid var(--sb-accent);
+  outline-offset: 2px;
+}
+ 
+/* Enlace activo (NavLink agrega .active) */
+.nav-lateral-menu a.active {
+  font-family: var(--font-medium);
+  color: var(--sb-accent-ink);
+  background: var(--sb-accent);
+}
+.nav-lateral-menu a.active svg {
+  color: var(--sb-accent-ink);
+}
+ 
+/* Botón de submenú (icono + texto a la izquierda, chevron a la derecha) */
+.nav-btn-submenu > span {
+  display: inline-flex;
+  align-items: center;
+}
+.nav-btn-submenu[aria-expanded="true"] {
+  color: #fff;
+  background: var(--sb-surface);
+}
+.nav-btn-submenu[aria-expanded="true"] svg {
+  color: var(--sb-accent);
+}
+ 
+/* ---- Submenús (acordeón con .submenu-open) ---- */
+.nav-lateral-menu li > ul {
+  max-height: 0;
+  overflow: hidden;
+  margin-left: 22px;
+  padding-left: 12px;
+  border-left: 1px solid var(--sb-border);
+  transition: max-height 0.3s var(--ease);
+}
+.nav-lateral-menu li > ul.submenu-open {
+  max-height: 320px;
+  margin-top: 4px;
+}
+.nav-lateral-menu li > ul li {
+  margin-bottom: 2px;
+}
+.nav-lateral-menu li > ul a {
+  padding: 9px 12px;
+  font-size: 1rem;
+  color: var(--sb-muted);
+}
+ 
+/* ---- Fondo oscuro (solo móvil/tablet) ---- */
+.nav-lateral-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 1030;
+  background: rgba(8, 14, 20, 0.6);
+  backdrop-filter: blur(2px);
+  animation: sb-fade 0.25s var(--ease);
+}
+ 
+@media (min-width: 768px) {
+  .nav-lateral-bg {
+    display: none;
+  }
+}
+ 
+ 
+/* =========================================================
+   11. HOME (tiles)
+   ========================================================= */
+.tile-container {
+  text-align: center;
+  padding: 20px 25px;
+}
+.tile {
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  margin: 10px;
+  text-decoration: none;
+  color: var(--accent-color);
+  background-color: #FFF;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  user-select: none;
+  transition: all .2s ease-in-out;
+}
+.tile:hover {
+  text-decoration: none;
+  border-color: var(--color-three);
+}
+.tile:focus,
+.tile:active {
+  outline: none;
+}
+.tile-tittle {
+  width: 100%;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  line-height: 40px;
+  box-sizing: border-box;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-color);
+  font-family: var(--font-medium);
+  transition: all .2s ease-in-out;
+}
+.tile:hover .tile-tittle {
+  color: #FFF;
+  border-color: var(--color-three);
+  background-color: var(--color-three);
+}
+.tile-icon {
+  width: 100%;
+  height: 160px;
+  padding-top: 22px;
+  box-sizing: border-box;
+}
+.tile-icon > i {
+  font-size: 80px;
+}
+.tile-icon > p {
+  height: 35px;
+  line-height: 35px;
+  font-family: var(--font-medium);
+}
+.tile:hover .tile-icon > i,
+.tile:hover .tile-icon > p {
+  color: var(--color-three);
+}
+ 
+ 
+/* =========================================================
+   12. KEYFRAMES Y ACCESIBILIDAD
+   ========================================================= */
+@keyframes sb-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+ 
+@media (prefers-reduced-motion: reduce) {
+  .main-container,
+  .nav-lateral,
+  .nav-lateral-menu li > ul,
+  .nav-lateral-bg {
+    transition: none;
+    animation: none;
+  }
+}
