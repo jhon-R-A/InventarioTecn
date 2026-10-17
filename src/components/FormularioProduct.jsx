@@ -1,8 +1,17 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import {
   Clipboard2Check,PlusCircle,BoxSeam
 } from "react-bootstrap-icons";
+
+// Configuración base de SweetAlert2 (mismos colores que el resto de la app)
+const Alerta = Swal.mixin({
+  confirmButtonColor: "#12202b",
+  cancelButtonColor: "#6c7a89",
+  reverseButtons: true,
+});
+
 function FormularioProducto({
   onGuardar,
   productoEditar,
@@ -25,7 +34,20 @@ function FormularioProducto({
     e.preventDefault();
 
     if (!nombre.trim() || cantidad === "") {
-      alert("Todos los campos son obligatorios");
+      Alerta.fire({
+        icon: "warning",
+        title: "Campos incompletos",
+        text: "Todos los campos son obligatorios",
+        confirmButtonText: "Entendido",
+      }).then(() => {
+        // Lleva el cursor al primer campo vacío
+        const idVacio = !nombre.trim()
+          ? "producto_nombre"
+          : "producto_cantidad";
+
+        document.getElementById(idVacio)?.focus();
+      });
+
       return;
     }
 
@@ -33,7 +55,15 @@ function FormularioProducto({
       !Number.isInteger(Number(cantidad)) ||
       Number(cantidad) < 1
     ) {
-      alert("La cantidad debe ser un número entero mayor que cero");
+      Alerta.fire({
+        icon: "error",
+        title: "Cantidad no válida",
+        text: "La cantidad debe ser un número entero mayor que cero",
+        confirmButtonText: "Entendido",
+      }).then(() => {
+        document.getElementById("producto_cantidad")?.focus();
+      });
+
       return;
     }
 
@@ -64,7 +94,7 @@ function FormularioProducto({
 
           <BoxSeam />
 
-          &nbsp; LISTA DE PRODUCTOS
+          &nbsp; AGREGAR PRODUCTO
 
         </h3>
 
@@ -218,4 +248,3 @@ function FormularioProducto({
 }
 
 export default FormularioProducto;
-
