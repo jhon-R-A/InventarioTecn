@@ -12,6 +12,7 @@ import {
   Clipboard2Check,
   BoxSeam,
   Search,
+  Wrench,
 } from "react-bootstrap-icons";
 
 function Sidebar({ open, onClose }) {
@@ -55,7 +56,7 @@ function Sidebar({ open, onClose }) {
             />
 
             <figcaption className="roboto-medium text-center">
-              Carlos Alfaro
+             ANDRES REYES
               <br />
               <small className="roboto-condensed-light">
                 Web Developer
@@ -89,7 +90,7 @@ function Sidebar({ open, onClose }) {
                 >
                   <span>
                     <PeopleFill />
-                    &nbsp; Clientes
+                    &nbsp; Técnicos
                   </span>
 
                   {openMenu === "clientes" ? (
@@ -158,6 +159,61 @@ function Sidebar({ open, onClose }) {
                     >
                       <PlusCircle />
                       &nbsp; Agregar Producto
+                    </NavLink>
+                  </li>
+                   <li>
+                    <NavLink
+                      to="/TableProduct"
+                      onClick={onClose}
+                    >
+                      <Clipboard2Check />
+                      &nbsp; Lista Producto
+                    </NavLink>
+                  </li>
+                </ul>
+              </li>
+
+                {/* REPARACIONES */}
+              <li>
+                <button
+                  type="button"
+                  className="nav-btn-submenu"
+                  onClick={() => toggleMenu("reparaciones")}
+                  aria-expanded={openMenu === "reparaciones"}
+                >
+                  <span>
+                    <Wrench />
+                    &nbsp; Reparacion
+                  </span>
+
+                  {openMenu === "reparaciones" ? (
+                    <ChevronUp />
+                  ) : (
+                    <ChevronDown />
+                  )}
+                </button>
+
+                <ul
+                  className={
+                    openMenu === "reparaciones" ? "submenu-open" : ""
+                  }
+                >
+                  <li>
+                    <NavLink
+                      to="/CreateReparacion"
+                      onClick={onClose}
+                    >
+                      <PlusCircle />
+                      &nbsp; Agregar Reparación
+                    </NavLink>
+                  </li>
+                   <li>
+                    <NavLink
+                      to="/TableReparacion"
+                      onClick={onClose}
+                    >
+                      <Clipboard2Check />
+                      &nbsp; Lista Reparación
                     </NavLink>
                   </li>
                 </ul>

@@ -1,5 +1,8 @@
 import { useState } from "react";
-
+import { Link } from "react-router-dom";
+import {
+  Clipboard2Check,PlusCircle,PeopleFill
+} from "react-bootstrap-icons";
 function TablaTenicComponen() {
 
   
@@ -121,9 +124,9 @@ function TablaTenicComponen() {
 
         <h3 className="text-left">
 
-          <i className="fas fa-plus fa-fw"></i>
+          <PeopleFill />
 
-          &nbsp; BUSCAR TÉCNICO
+          &nbsp; LISTA DE TÉCNICOS
 
         </h3>
 
@@ -149,29 +152,29 @@ function TablaTenicComponen() {
 
           <li>
 
-            <a
-              href="#formulario"
-              className="active"
+            <Link
+              to="/CreateTecnico"
+              
             >
 
-              <i className="fas fa-plus fa-fw"></i>
+              <PlusCircle />
 
               &nbsp; AGREGAR TÉCNICO
 
-            </a>
+            </Link>
 
           </li>
 
 
           <li>
 
-            <a href="#lista">
-
-              <i className="fas fa-clipboard-list fa-fw"></i>
+            <Link to="/TablaTecnico" className="active">
+                  
+              <Clipboard2Check />
 
               &nbsp; LISTA DE TÉCNICOS
 
-            </a>
+            </Link>
 
           </li>
 

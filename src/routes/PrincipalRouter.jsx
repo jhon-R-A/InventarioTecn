@@ -5,7 +5,9 @@ import CreateTecnico from "../pages/Tecnico/CrearTenico/CreateTecnico.jsx";
 import TablaTecnico from "../pages/Tecnico/CrearTenico/TableTecnic.jsx";
 import Reporte from "../pages/Tecnico/reportes/ReportProduct.jsx";
 import CreateProduct from "../pages/Tecnico/CrearProduct/CreateProduct.jsx";
-
+import TableProduct from "../pages/Tecnico/CrearProduct/TableProduct.jsx";
+import CreateReparac from "../pages/Reparaciones/CreateReparac.jsx";
+import TableReparacion from "../pages/Reparaciones/TableReparacion.jsx";
 
 import Dashboard from "../pages/Dashboard.jsx";
 import Protected from "./routerprotected/ProtectedRoute.jsx";
@@ -53,6 +55,21 @@ function PrincipalRouter() {
               <Route
                 path="/CreateProduct"
                 element={<CreateProduct />}
+              />
+             
+              <Route
+                path="/TableProduct"
+                element={<TableProduct />}
+              />
+
+                 {/* CEREAR REPARACIONES */}
+              <Route
+                path="/CreateReparacion"
+                element={<CreateReparac />}
+              />
+              <Route
+                path="/TableReparacion"
+                element={<TableReparacion />}
               />
               
               {/* EMPRESA */}

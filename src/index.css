@@ -2,7 +2,7 @@
    styles.css  ·  ARCHIVO ÚNICO (reemplaza al CSS viejo de la
    plantilla y a layout.css). Importar una sola vez, en
    Baselayout.jsx o en main.jsx.
- 
+
    ÍNDICE
    1. Fuentes
    2. Variables
@@ -11,14 +11,15 @@
    5. Componentes de página (headers, tabs, formularios)
    6. Ajustes de Bootstrap (tablas, paginación, inputs)
    7. Login
-   8. Layout (main-container + page-content)
+   8. Layout (app-shell + app-content)
    9. Navbar (incluye botón hamburguesa)
   10. Sidebar
   11. Home (tiles)
   12. Accesibilidad
+  13. Formularios (FormReparacion.jsx)
    ========================================================= */
- 
- 
+
+
 /* =========================================================
    1. FUENTES
    (las rutas son relativas a ESTE archivo css)
@@ -30,7 +31,7 @@
   font-weight: normal;
   font-style: normal;
 }
- 
+
 @font-face {
   font-family: 'roboto_condensed_light';
   src: url('../webfonts/robotocondensed-light-webfont.woff2') format('woff2'),
@@ -39,7 +40,7 @@
   font-weight: normal;
   font-style: normal;
 }
- 
+
 @font-face {
   font-family: 'roboto_condensed_regular';
   src: url('../webfonts/robotocondensed-regular-webfont.woff2') format('woff2'),
@@ -47,8 +48,8 @@
   font-weight: normal;
   font-style: normal;
 }
- 
- 
+
+
 /* =========================================================
    2. VARIABLES
    ========================================================= */
@@ -60,12 +61,12 @@
   --form-color: #14111A;
   --accent-color: #253556;
   --border-color: #D8D8D8;
- 
+
   /* Tipografías */
   --font-light: 'roboto_condensed_light', 'Roboto', system-ui, sans-serif;
   --font-regular: 'roboto_condensed_regular', 'Roboto', system-ui, sans-serif;
   --font-medium: 'roboto_medium_regular', 'Roboto', system-ui, sans-serif;
- 
+
   /* Sidebar
      Para usar los colores de la plantilla original:
      --sb-bg: var(--color-two);  --sb-accent: var(--color-three);
@@ -80,7 +81,7 @@
   --sb-accent: #f2b84b;
   --sb-accent-ink: #1b1405;
   --sb-radius: 10px;
- 
+
   /* Navbar y página */
   --nav-height: 64px;
   --nav-bg: #ffffff;
@@ -88,26 +89,39 @@
   --nav-ink: #12202b;
   --nav-muted: #5f7383;
   --page-bg: #f1f5f8;
- 
+
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
- 
- 
+
+
 /* =========================================================
    3. BASE
    ========================================================= */
 html,
-body {
+html body {
+  display: block;
+  place-items: initial;
   width: 100%;
+  min-width: 0;
   min-height: 100%;
+  margin: 0;
   font-family: var(--font-light);
   font-size: 16px;
   color: #333;
   background-color: var(--page-bg);
 }
- 
+
+/* Neutraliza estilos por defecto de Vite (index.css / App.css) */
+html body #root {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
 /* IMPORTANTE: .full-box va ANTES del layout para que reglas
-   como .page-content o .navbar-info puedan ponerle su padding */
+   como .app-content o .app-navbar puedan ponerle su padding */
 .full-box {
   display: block;
   margin: 0;
@@ -115,8 +129,8 @@ body {
   box-sizing: border-box;
   width: 100%;
 }
- 
- 
+
+
 /* =========================================================
    4. UTILIDADES DE TEXTO
    ========================================================= */
@@ -129,8 +143,8 @@ body {
 .roboto-condensed-regular {
   font-family: var(--font-regular);
 }
- 
- 
+
+
 /* =========================================================
    5. COMPONENTES DE PÁGINA
    ========================================================= */
@@ -140,7 +154,7 @@ body {
   padding: 15px;
   border-radius: 3px;
 }
- 
+
 /* Page headers */
 .page-header {
   padding: 30px 20px 60px 20px;
@@ -151,7 +165,7 @@ body {
 .page-header > :nth-child(2) {
   font-size: 18px;
 }
- 
+
 /* Page nav tabs */
 .page-nav-tabs {
   display: flex;
@@ -188,8 +202,8 @@ body {
   color: #333;
   border-bottom: 2px solid #333;
 }
- 
- 
+
+
 /* =========================================================
    6. AJUSTES DE BOOTSTRAP
    ========================================================= */
@@ -206,7 +220,7 @@ body {
 .form-control-file:focus {
   outline: none;
 }
- 
+
 /* Tablas */
 .table .btn {
   margin-bottom: 0;
@@ -240,7 +254,7 @@ body {
 table form {
   margin-bottom: 0;
 }
- 
+
 /* Paginación */
 .page-link {
   transition: all .2s ease-in-out;
@@ -249,8 +263,8 @@ table form {
   background-color: var(--color-three);
   color: #FFF;
 }
- 
- 
+
+
 /* =========================================================
    7. LOGIN
    ========================================================= */
@@ -295,55 +309,55 @@ table form {
 .btn-login:focus {
   outline: none;
 }
- 
- 
+
+
 /* =========================================================
    8. LAYOUT  (Baselayout.jsx)
-   Estructura:  main.main-container
+   Estructura:  main.app-shell
                  ├─ Sidebar      (fixed)
                  ├─ NavbarMenu   (sticky)
-                 └─ section.page-content
+                 └─ section.app-content
    La clase .sidebar-is-open la pone Baselayout cuando el
    menú está abierto.
    ========================================================= */
-.main-container {
+.app-shell {
   min-height: 100vh;
   color: var(--nav-ink);
   background: var(--page-bg);
   font-family: var(--font-light);
   transition: padding-left 0.3s var(--ease);
 }
- 
-.main-container,
-.main-container * {
+
+.app-shell,
+.app-shell * {
   box-sizing: border-box;
 }
- 
-.page-content {
+
+.app-content {
   padding: 28px 24px 40px;
 }
- 
+
 @media (min-width: 768px) {
-  .main-container.sidebar-is-open {
+  .app-shell.sidebar-is-open {
     padding-left: var(--sb-width);
   }
- 
-  .page-content {
+
+  .app-content {
     padding: 32px 36px 48px;
   }
 }
- 
- 
+
+
 /* =========================================================
    9. NAVBAR  (NavbarMenu.jsx)
-   nav.navbar-info
+   nav.app-navbar
     ├─ .navbar-left
     │    └─ button.navbar-menu-button   ← HAMBURGUESA
     └─ .navbar-actions
          ├─ .icon-button  (+ .notification-dot)
          └─ Dropdown → .user-button (+ .user-label), .logout
    ========================================================= */
-.navbar-info {
+.app-navbar {
   position: sticky;
   top: 0;
   z-index: 1020;
@@ -356,20 +370,20 @@ table form {
   border-bottom: 1px solid var(--nav-border);
   box-shadow: 0 1px 8px rgba(18, 32, 43, 0.05);
 }
- 
+
 .navbar-left,
 .navbar-actions {
   display: flex;
   align-items: center;
   gap: 10px;
 }
- 
+
 @media (min-width: 768px) {
-  .navbar-info {
+  .app-navbar {
     padding: 0 36px;
   }
 }
- 
+
 /* ---- Botón hamburguesa (visible en todos los tamaños) ---- */
 .navbar-menu-button {
   display: inline-flex;
@@ -397,7 +411,7 @@ table form {
   outline: 2px solid var(--sb-accent);
   outline-offset: 2px;
 }
- 
+
 /* ---- Notificaciones ---- */
 .navbar-actions .btn.icon-button {
   position: relative;
@@ -419,7 +433,7 @@ table form {
   color: var(--nav-ink);
   background: var(--page-bg);
 }
- 
+
 .notification-dot {
   position: absolute;
   top: 9px;
@@ -430,7 +444,7 @@ table form {
   border: 2px solid var(--nav-bg);
   border-radius: 50%;
 }
- 
+
 /* ---- Usuario ---- */
 .navbar-actions .btn.user-button {
   display: inline-flex;
@@ -465,7 +479,7 @@ table form {
   outline-offset: 2px;
   box-shadow: none;
 }
- 
+
 @media (max-width: 575.98px) {
   .user-label {
     display: none;
@@ -474,7 +488,7 @@ table form {
     padding: 5px 8px 5px 6px;
   }
 }
- 
+
 /* ---- Menú desplegable ---- */
 .navbar-actions .dropdown-menu {
   min-width: 210px;
@@ -511,8 +525,8 @@ table form {
   color: #a5281b;
   background: #fdecea;
 }
- 
- 
+
+
 /* =========================================================
    10. SIDEBAR  (Sidebar.jsx)
    Cerrado por defecto; se abre con .sidebar-open en CUALQUIER
@@ -540,7 +554,7 @@ table form {
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.25);
   transition: transform 0.3s var(--ease), visibility 0s;
 }
- 
+
 .nav-lateral-content {
   height: 100%;
   overflow-y: auto;
@@ -556,7 +570,7 @@ table form {
   background: var(--sb-surface-hover);
   border-radius: 6px;
 }
- 
+
 /* ---- Avatar ---- */
 .nav-lateral-avatar {
   position: relative;
@@ -585,7 +599,7 @@ table form {
   font-size: 0.9rem;
   color: var(--sb-muted);
 }
- 
+
 .sidebar-close {
   position: absolute;
   top: 12px;
@@ -610,13 +624,13 @@ table form {
   background: var(--sb-accent);
   transform: rotate(90deg);
 }
- 
+
 .nav-lateral-bar {
   height: 1px;
   margin: 0 0 14px;
   background: var(--sb-border);
 }
- 
+
 /* ---- Menú ---- */
 .nav-lateral-menu {
   padding: 0 12px;
@@ -629,7 +643,7 @@ table form {
 .nav-lateral-menu > ul > li {
   margin-bottom: 4px;
 }
- 
+
 .nav-lateral-menu a,
 .nav-btn-submenu {
   display: flex;
@@ -659,7 +673,7 @@ table form {
   color: #fff;
   background: var(--sb-surface);
 }
- 
+
 .nav-lateral-menu svg {
   flex-shrink: 0;
   font-size: 1.05rem;
@@ -670,14 +684,14 @@ table form {
 .nav-btn-submenu:hover svg {
   color: var(--sb-accent);
 }
- 
+
 .nav-lateral-menu a:focus-visible,
 .nav-btn-submenu:focus-visible,
 .sidebar-close:focus-visible {
   outline: 2px solid var(--sb-accent);
   outline-offset: 2px;
 }
- 
+
 /* Enlace activo (NavLink agrega .active) */
 .nav-lateral-menu a.active {
   font-family: var(--font-medium);
@@ -687,7 +701,7 @@ table form {
 .nav-lateral-menu a.active svg {
   color: var(--sb-accent-ink);
 }
- 
+
 /* Botón de submenú (icono + texto a la izquierda, chevron a la derecha) */
 .nav-btn-submenu > span {
   display: inline-flex;
@@ -700,7 +714,7 @@ table form {
 .nav-btn-submenu[aria-expanded="true"] svg {
   color: var(--sb-accent);
 }
- 
+
 /* ---- Submenús (acordeón con .submenu-open) ---- */
 .nav-lateral-menu li > ul {
   max-height: 0;
@@ -722,7 +736,7 @@ table form {
   font-size: 1rem;
   color: var(--sb-muted);
 }
- 
+
 /* ---- Fondo oscuro (solo móvil/tablet) ---- */
 .nav-lateral-bg {
   position: fixed;
@@ -732,14 +746,14 @@ table form {
   backdrop-filter: blur(2px);
   animation: sb-fade 0.25s var(--ease);
 }
- 
+
 @media (min-width: 768px) {
   .nav-lateral-bg {
     display: none;
   }
 }
- 
- 
+
+
 /* =========================================================
    11. HOME (tiles)
    ========================================================= */
@@ -803,8 +817,8 @@ table form {
 .tile:hover .tile-icon > p {
   color: var(--color-three);
 }
- 
- 
+
+
 /* =========================================================
    12. KEYFRAMES Y ACCESIBILIDAD
    ========================================================= */
@@ -812,13 +826,284 @@ table form {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
- 
+
 @media (prefers-reduced-motion: reduce) {
-  .main-container,
+  .app-shell,
   .nav-lateral,
   .nav-lateral-menu li > ul,
   .nav-lateral-bg {
     transition: none;
     animation: none;
+  }
+}
+
+
+/* =========================================================
+   13. FORMULARIOS  (FormReparacion.jsx)
+   ========================================================= */
+.form-reparacion-wrap {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+/* ---- Encabezado ---- */
+.form-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.form-title-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  font-size: 1.4rem;
+  color: var(--sb-accent-ink);
+  background: var(--sb-accent);
+  border-radius: 12px;
+}
+.form-title h2 {
+  margin: 0;
+  font-family: var(--font-medium);
+  font-size: 1.5rem;
+  color: var(--nav-ink);
+}
+.form-title p {
+  margin: 2px 0 0;
+  color: var(--nav-muted);
+}
+
+/* ---- Tarjeta del formulario ---- */
+.form-reparacion {
+  padding: 28px;
+  background: #fff;
+  border: 1px solid var(--nav-border);
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(18, 32, 43, 0.06);
+}
+
+.form-reparacion .form-label {
+  margin-bottom: 6px;
+  font-family: var(--font-medium);
+  color: var(--nav-ink);
+}
+.form-reparacion .required {
+  color: #c0392b;
+}
+
+/* ---- Inputs con icono ---- */
+.form-reparacion .input-group-text {
+  color: var(--nav-muted);
+  background: var(--page-bg);
+  border-color: var(--nav-border);
+  font-size: 1.05rem;
+}
+.form-reparacion .form-control {
+  padding: 10px 12px;
+  font-family: var(--font-regular);
+  font-size: 1.05rem;
+  color: var(--nav-ink);
+  border: 1px solid var(--nav-border);
+}
+.form-reparacion .form-control::placeholder {
+  color: #9aabb8;
+}
+/* Anula el "border: none" del foco de la plantilla (sección 6) */
+.form-reparacion .form-control:focus {
+  border: 1px solid var(--sb-accent);
+  box-shadow: 0 0 0 3px rgba(242, 184, 75, 0.25);
+}
+.form-reparacion .form-control.is-invalid {
+  padding-right: 12px;
+  background-image: none;
+  border-color: #c0392b;
+}
+.form-reparacion .form-control.is-invalid:focus {
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.18);
+}
+.form-reparacion textarea.form-control {
+  min-height: 130px;
+  resize: vertical;
+}
+.input-group-textarea .input-group-text {
+  align-items: flex-start;
+  padding-top: 12px;
+}
+
+/* ---- Subida de foto ---- */
+.upload-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 150px;
+  padding: 20px;
+  margin: 0;
+  text-align: center;
+  color: var(--nav-muted);
+  background: var(--page-bg);
+  border: 2px dashed #c4d0d9;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.upload-box svg {
+  margin-bottom: 4px;
+  font-size: 2rem;
+}
+.upload-box:hover,
+.upload-input:focus-visible + .upload-box {
+  color: var(--nav-ink);
+  background: #fffaf0;
+  border-color: var(--sb-accent);
+}
+.upload-box.is-invalid {
+  border-color: #c0392b;
+}
+.upload-title {
+  font-family: var(--font-medium);
+  font-size: 1.05rem;
+}
+.upload-hint {
+  font-size: 0.9rem;
+}
+
+.upload-preview {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+.upload-preview img {
+  display: block;
+  max-width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+  border: 1px solid var(--nav-border);
+  border-radius: 12px;
+}
+.upload-preview small {
+  display: block;
+  margin-top: 6px;
+  color: var(--nav-muted);
+}
+.upload-remove {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  font-size: 1.3rem;
+  color: #fff;
+  background: rgba(18, 32, 43, 0.8);
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s var(--ease);
+}
+.upload-remove:hover {
+  background: #c0392b;
+}
+
+/* ---- Mensajes ---- */
+.field-error {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 0.95rem;
+  color: #c0392b;
+}
+.field-meta {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.field-counter {
+  margin-top: 6px;
+  margin-left: auto;
+  font-size: 0.9rem;
+  color: var(--nav-muted);
+}
+
+.form-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  border-radius: 10px;
+}
+.form-alert-ok {
+  color: #1e6b43;
+  background: #e8f6ee;
+  border: 1px solid #bfe3cf;
+}
+.form-alert-error {
+  color: #a5281b;
+  background: #fdecea;
+  border: 1px solid #f5c6c0;
+}
+
+/* ---- Botones ---- */
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--nav-border);
+}
+.form-reparacion .btn-save,
+.form-reparacion .btn-clear {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  font-family: var(--font-medium);
+  font-size: 1rem;
+  border-radius: 10px;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.form-reparacion .btn-save {
+  color: #fff;
+  background: var(--sb-bg);
+  border: 1px solid var(--sb-bg);
+}
+.form-reparacion .btn-save:hover,
+.form-reparacion .btn-save:focus-visible {
+  color: var(--sb-accent-ink);
+  background: var(--sb-accent);
+  border-color: var(--sb-accent);
+}
+.form-reparacion .btn-clear {
+  color: var(--nav-ink);
+  background: transparent;
+  border: 1px solid #cdd7df;
+}
+.form-reparacion .btn-clear:hover,
+.form-reparacion .btn-clear:focus-visible {
+  color: var(--nav-ink);
+  background: var(--page-bg);
+  border-color: #b8c5cf;
+}
+.form-reparacion .btn:disabled {
+  opacity: 0.65;
+}
+
+@media (max-width: 575.98px) {
+  .form-reparacion {
+    padding: 20px 16px;
+  }
+  .form-actions .btn {
+    flex: 1 1 100%;
+    justify-content: center;
   }
 }

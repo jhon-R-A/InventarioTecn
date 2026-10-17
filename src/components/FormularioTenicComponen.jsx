@@ -1,4 +1,20 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import {
+  Clipboard2Check,PlusCircle,PeopleFill
+} from "react-bootstrap-icons";
+
+// ==========================================
+// CONFIGURACIÓN BASE DE SWEETALERT2
+// (los colores combinan con el resto de la app)
+// ==========================================
+
+const Alerta = Swal.mixin({
+  confirmButtonColor: "#12202b",
+  cancelButtonColor: "#6c7a89",
+  reverseButtons: true
+});
 
 function FormularioTenicComponen() {
 
@@ -27,7 +43,12 @@ function FormularioTenicComponen() {
     // Validar campos
     if (!nombre.trim() || !codigo.trim()) {
 
-      alert("Todos los campos son obligatorios");
+      Alerta.fire({
+        icon: "warning",
+        title: "Campos incompletos",
+        text: "Todos los campos son obligatorios",
+        confirmButtonText: "Entendido"
+      });
 
       return;
     }
@@ -58,7 +79,14 @@ function FormularioTenicComponen() {
 
       setTecnicos(tecnicosActualizados);
 
-      alert("Técnico actualizado correctamente");
+      Alerta.fire({
+        icon: "success",
+        title: "¡Técnico actualizado!",
+        text: "Los datos se actualizaron correctamente",
+        timer: 2000,
+        timerProgressBar: true,
+        showConfirmButton: false
+      });
 
     }
 
@@ -85,7 +113,14 @@ function FormularioTenicComponen() {
         nuevoTecnico
       ]);
 
-      alert("Técnico creado correctamente");
+      Alerta.fire({
+        icon: "success",
+        title: "¡Técnico creado!",
+        text: "El técnico se registró correctamente",
+        timer: 2000,
+        timerProgressBar: true,
+        showConfirmButton: false
+      });
 
     }
 
@@ -136,14 +171,29 @@ function FormularioTenicComponen() {
   // ELIMINAR TÉCNICO
   // ==========================================
 
-  const handleEliminar = (id) => {
+  const handleEliminar = async (id) => {
 
-    const confirmar = window.confirm(
-      "¿Está seguro de que desea eliminar este técnico?"
+    const tecnico = tecnicos.find(
+      (item) => item.id === id
     );
 
 
-    if (!confirmar) {
+    // Confirmación
+    const resultado = await Alerta.fire({
+      icon: "warning",
+      title: "¿Eliminar técnico?",
+      text: tecnico
+        ? `Se eliminará a ${tecnico.nombre} (${tecnico.codigo}). Esta acción no se puede deshacer.`
+        : "Esta acción no se puede deshacer.",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+      confirmButtonColor: "#c0392b",
+      focusCancel: true
+    });
+
+
+    if (!resultado.isConfirmed) {
       return;
     }
 
@@ -164,6 +214,17 @@ function FormularioTenicComponen() {
 
     }
 
+
+    // Aviso de eliminado
+    Alerta.fire({
+      icon: "success",
+      title: "¡Eliminado!",
+      text: "El técnico fue eliminado correctamente",
+      timer: 2000,
+      timerProgressBar: true,
+      showConfirmButton: false
+    });
+
   };
 
 
@@ -180,7 +241,7 @@ function FormularioTenicComponen() {
 
         <h3 className="text-left">
 
-          <i className="fas fa-plus fa-fw"></i>
+          <PeopleFill />
 
           &nbsp; AGREGAR TÉCNICO
 
@@ -208,29 +269,29 @@ function FormularioTenicComponen() {
 
           <li>
 
-            <a
-              href="#formulario"
+            <Link
+              to="/CreateTecnico"
               className="active"
             >
 
-              <i className="fas fa-plus fa-fw"></i>
+              <PlusCircle />
 
               &nbsp; AGREGAR TÉCNICO
 
-            </a>
+            </Link>
 
           </li>
 
 
           <li>
 
-            <a href="#lista">
+            <Link to="/TablaTecnico">
 
-              <i className="fas fa-clipboard-list fa-fw"></i>
+              <Clipboard2Check />
 
               &nbsp; LISTA DE TÉCNICOS
 
-            </a>
+            </Link>
 
           </li>
 
@@ -412,4 +473,3 @@ function FormularioTenicComponen() {
 }
 
 export default FormularioTenicComponen;
-

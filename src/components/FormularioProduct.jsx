@@ -1,6 +1,8 @@
-
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+import {
+  Clipboard2Check,PlusCircle,BoxSeam
+} from "react-bootstrap-icons";
 function FormularioProducto({
   onGuardar,
   productoEditar,
@@ -52,6 +54,74 @@ function FormularioProducto({
 
   return (
     <div className="container-fluid" id="formulario-producto">
+{/* ==========================================
+          ENCABEZADO
+      ========================================== */}
+
+      <div className="full-box page-header">
+
+        <h3 className="text-left">
+
+          <BoxSeam />
+
+          &nbsp; LISTA DE PRODUCTOS
+
+        </h3>
+
+
+        <p className="text-justify">
+
+          Registra los técnicos que forman parte
+          del sistema. Puedes crear, actualizar
+          y eliminar técnicos.
+
+        </p>
+
+      </div>
+
+
+      {/* ==========================================
+          PESTAÑAS
+      ========================================== */}
+
+      <div className="container-fluid">
+
+        <ul className="full-box list-unstyled page-nav-tabs">
+
+          <li>
+
+            <Link
+              to="/CreateProduct"
+              className="active"
+            >
+
+             <PlusCircle />
+
+              &nbsp; AGREGAR PRODUCTO
+
+            </Link>
+
+          </li>
+
+
+          <li>
+
+            <Link to="/TableProduct" >
+                  
+              <Clipboard2Check />
+
+              &nbsp; LISTA DE PRODUCTOS
+
+            </Link>
+
+          </li>
+
+        </ul>
+
+      </div>
+
+
+      
       <form
         className="form-neon"
         autoComplete="off"

@@ -24,7 +24,7 @@ function NavbarMenu({ onMenuClick }) {
 
   return (
     
-    <nav className="full-box navbar-info">
+    <nav className="full-box app-navbar">
 
       {/* Parte izquierda */}
       <div className="navbar-left">

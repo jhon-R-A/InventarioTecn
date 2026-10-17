@@ -1,5 +1,17 @@
 import React from "react";
 
+import {
+  Speedometer2,
+  PeopleFill,
+  BoxSeam,
+  CashStack,
+  PersonBadge,
+  Shop,
+} from "react-bootstrap-icons";
+
+/* Tamaño de los iconos de las tarjetas (antes 80px) */
+const tileIconStyle = { fontSize: 60, lineHeight: 1 };
+
 const dashboard = () => {
   return (
     <>
@@ -7,7 +19,7 @@ const dashboard = () => {
         {/* Page header */}
         <div className="full-box page-header">
           <h3 className="text-left">
-            <i className="fab fa-dashcube fa-fw"></i> &nbsp; DASHBOARD
+            <Speedometer2 /> &nbsp; DASHBOARD
           </h3>
           <p className="text-justify">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit
@@ -21,34 +33,35 @@ const dashboard = () => {
           <a href="/clientes/nuevo" className="tile">
             <div className="tile-tittle"> Clientes </div>
             <div className="tile-icon">
-              <i className="fas fa-users fa-fw"></i> <p> 5 Registrados </p>
+              <i className="d-block mt-2 mb-2" style={tileIconStyle}><PeopleFill /></i>
+              <p> 5 Registrados </p>
             </div>
           </a>
           <a href="/items/lista" className="tile">
             <div className="tile-tittle"> Items </div>
             <div className="tile-icon">
-              <i className="fas fa-pallet fa-fw"></i>
+              <i className="d-block mt-2 mb-2" style={tileIconStyle}><BoxSeam /></i>
               <p> 9 Registrados </p>
             </div>
           </a>
           <a href="/prestamos/lista" className="tile">
             <div className="tile-tittle"> Prestamos </div>
             <div className="tile-icon">
-              <i className="fas fa-file-invoice-dollar fa-fw"></i>
+              <i className="d-block mt-2 mb-2" style={tileIconStyle}><CashStack /></i>
               <p> 10 Registrados </p>
             </div>
           </a>
           <a href="/usuarios/lista" className="tile">
             <div className="tile-tittle"> Usuarios </div>
             <div className="tile-icon">
-              <i className="fas fa-user-secret fa-fw"></i>
+              <i className="d-block mt-2 mb-2" style={tileIconStyle}><PersonBadge /></i>
               <p> 50 Registrados </p>
             </div>
           </a>
           <a href="/empresa" className="tile">
             <div className="tile-tittle"> Empresa </div>
             <div className="tile-icon">
-              <i className="fas fa-store-alt fa-fw"></i>
+              <i className="d-block mt-2 mb-2" style={tileIconStyle}><Shop /></i>
               <p> 1 Registrada </p>
             </div>
           </a>

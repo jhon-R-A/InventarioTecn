@@ -1,4 +1,7 @@
-
+import { Link } from "react-router-dom";
+import {
+  Clipboard2Check,PlusCircle,BoxSeam
+} from "react-bootstrap-icons";
 function TablaProduct({
   productos,
   onActualizar,
@@ -6,12 +9,71 @@ function TablaProduct({
 }) {
   return (
     <div className="container-fluid" id="lista-productos">
-      <br />
+      {/* ==========================================
+          ENCABEZADO
+      ========================================== */}
 
-      <h3 className="text-left">
-        <i className="fas fa-clipboard-list fa-fw"></i>
-        &nbsp; PRODUCTOS REGISTRADOS
-      </h3>
+      <div className="full-box page-header">
+
+        <h3 className="text-left">
+
+          <BoxSeam />
+
+          &nbsp; LISTA DE PRODUCTOS
+
+        </h3>
+
+
+        <p className="text-justify">
+
+          Registra los técnicos que forman parte
+          del sistema. Puedes crear, actualizar
+          y eliminar técnicos.
+
+        </p>
+
+      </div>
+
+
+      {/* ==========================================
+          PESTAÑAS
+      ========================================== */}
+
+      <div className="container-fluid">
+
+        <ul className="full-box list-unstyled page-nav-tabs">
+
+          <li>
+
+            <Link
+              to="/CreateProduct"
+              
+            >
+
+              <PlusCircle />
+
+              &nbsp; AGREGAR PRODUCTO
+
+            </Link>
+
+          </li>
+
+
+          <li>
+
+            <Link to="/TableProduct" className="active">
+                  
+              <Clipboard2Check />
+
+              &nbsp; LISTA DE PRODUCTOS
+
+            </Link>
+
+          </li>
+
+        </ul>
+
+      </div>
 
       <div className="table-responsive">
         <table className="table table-dark table-sm">

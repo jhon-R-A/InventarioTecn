@@ -16,7 +16,7 @@ function Baselayout() {
   };
 
   return (
-    <main className="main-container">
+    <main className="app-shell">
       <Sidebar
         open={sidebarOpen}
         onClose={handleCloseSidebar}
@@ -26,7 +26,7 @@ function Baselayout() {
       <NavbarMenu onMenuClick={handleMenuClick} />
 
      
-      <section className="full-box page-content">
+      <section className="full-box app-content">
         <Outlet />
       </section>
       
