@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import PageTabs from "./PageTabs.jsx";
 import Swal from "sweetalert2";
 import {
   Clipboard2Check,PlusCircle,PeopleFill
@@ -313,41 +314,7 @@ function FormularioTenicComponen() {
           PESTAÑAS
       ========================================== */}
 
-      <div className="container-fluid">
-
-        <ul className="full-box list-unstyled page-nav-tabs">
-
-          <li>
-
-            <Link
-              to="/CreateTecnico"
-              className="active"
-            >
-
-              <PlusCircle />
-
-              &nbsp; AGREGAR TÉCNICO
-
-            </Link>
-
-          </li>
-
-
-          <li>
-
-            <Link to="/TablaTecnico">
-
-              <Clipboard2Check />
-
-              &nbsp; LISTA DE TÉCNICOS
-
-            </Link>
-
-          </li>
-
-        </ul>
-
-      </div>
+        <PageTabs modulo="tecnico" />
 
 
       {/* ==========================================

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import PageTabs from "./PageTabs.jsx";
 import { Pagination } from "react-bootstrap";
 import Swal from "sweetalert2";
 import {
@@ -218,41 +218,7 @@ function TablaProduct({
           PESTAÑAS
       ========================================== */}
 
-      <div className="container-fluid">
-
-        <ul className="full-box list-unstyled page-nav-tabs">
-
-          <li>
-
-            <Link
-              to="/CreateProduct"
-              
-            >
-
-              <PlusCircle />
-
-              &nbsp; AGREGAR PRODUCTO
-
-            </Link>
-
-          </li>
-
-
-          <li>
-
-            <Link to="/TableProduct" className="active">
-                  
-              <Clipboard2Check />
-
-              &nbsp; LISTA DE PRODUCTOS
-
-            </Link>
-
-          </li>
-
-        </ul>
-
-      </div>
+      <PageTabs modulo="producto" />
 
       <div className="table-responsive">
         <table className="table table-dark table-sm">

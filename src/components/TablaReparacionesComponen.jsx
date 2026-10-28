@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import PageTabs from "./PageTabs.jsx";
 import { Pagination } from "react-bootstrap";
 import Swal from "sweetalert2";
 
 import {
-  Clipboard2Check,
-  PlusCircle,
   ArrowRepeat,
   Trash,
   Image,
@@ -226,23 +224,7 @@ function TablaReparaciones({
           {/* ==========================================
               PESTAÑAS
           ========================================== */}
-          <div className="container-fluid">
-            <ul className="full-box list-unstyled page-nav-tabs">
-              <li>
-                <Link to="/CreateReparacion">
-                  <PlusCircle />
-                  &nbsp; AGREGAR REPARACIÓN
-                </Link>
-              </li>
-
-              <li>
-                <Link to={listaPath} className="active">
-                  <Clipboard2Check />
-                  &nbsp; LISTA DE REPARACIONES
-                </Link>
-              </li>
-            </ul>
-          </div>
+          <PageTabs modulo="reparacion" />
         </>
       )}
 

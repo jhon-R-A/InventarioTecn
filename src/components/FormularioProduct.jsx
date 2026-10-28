@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import PageTabs from "./PageTabs.jsx";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import {
@@ -114,41 +114,7 @@ function FormularioProducto({
           PESTAÑAS
       ========================================== */}
 
-      <div className="container-fluid">
-
-        <ul className="full-box list-unstyled page-nav-tabs">
-
-          <li>
-
-            <Link
-              to="/CreateProduct"
-              className="active"
-            >
-
-             <PlusCircle />
-
-              &nbsp; AGREGAR PRODUCTO
-
-            </Link>
-
-          </li>
-
-
-          <li>
-
-            <Link to="/TableProduct" >
-                  
-              <Clipboard2Check />
-
-              &nbsp; LISTA DE PRODUCTOS
-
-            </Link>
-
-          </li>
-
-        </ul>
-
-      </div>
+      <PageTabs modulo="producto" />
 
 
       

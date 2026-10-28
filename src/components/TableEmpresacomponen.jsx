@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import PageTabs from "./PageTabs.jsx";
 import { Pagination } from "react-bootstrap";
 import Swal from "sweetalert2";
 import {
@@ -229,38 +229,7 @@ function TableEmpresacomponen({
           PESTAÑAS
       ========================================== */}
 
-      <div className="container-fluid">
-
-        <ul className="full-box list-unstyled page-nav-tabs">
-
-          <li>
-
-            <Link to="/CreateEmpresa">
-
-              <PlusCircle />
-
-              &nbsp; AGREGAR EMPRESA
-
-            </Link>
-
-          </li>
-
-
-          <li>
-
-            <Link to="/TableEmpresa" className="active">
-
-              <Clipboard2Check />
-
-              &nbsp; LISTA DE EMPRESAS
-
-            </Link>
-
-          </li>
-
-        </ul>
-
-      </div>
+     <PageTabs modulo="empresa" />
 
 
       {/* ==========================================

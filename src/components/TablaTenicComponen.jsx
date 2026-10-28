@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+
+import PageTabs from "./PageTabs.jsx";
 import { Pagination } from "react-bootstrap";
 import Swal from "sweetalert2";
 import {
@@ -316,41 +317,7 @@ function TablaTenicComponen() {
           PESTAÑAS
       ========================================== */}
 
-      <div className="container-fluid">
-
-        <ul className="full-box list-unstyled page-nav-tabs">
-
-          <li>
-
-            <Link
-              to="/CreateTecnico"
-              
-            >
-
-              <PlusCircle />
-
-              &nbsp; AGREGAR TÉCNICO
-
-            </Link>
-
-          </li>
-
-
-          <li>
-
-            <Link to="/TablaTecnico" className="active">
-                  
-              <Clipboard2Check />
-
-              &nbsp; LISTA DE TÉCNICOS
-
-            </Link>
-
-          </li>
-
-        </ul>
-
-      </div>
+        <PageTabs modulo="tecnico" />
 
 
      

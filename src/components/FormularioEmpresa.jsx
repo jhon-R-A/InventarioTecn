@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import PageTabs from "./PageTabs.jsx";
 import Swal from "sweetalert2";
 import {
   Clipboard2Check,PlusCircle,Building,Save
@@ -159,41 +159,7 @@ function FormularioEmpresa({
           PESTAÑAS
       ========================================== */}
 
-      <div className="container-fluid">
-
-        <ul className="full-box list-unstyled page-nav-tabs">
-
-          <li>
-
-            <Link
-              to="/CreateEmpresa"
-              className="active"
-            >
-
-              <PlusCircle />
-
-              &nbsp; AGREGAR EMPRESA
-
-            </Link>
-
-          </li>
-
-
-          <li>
-
-            <Link to="/TableEmpresa">
-
-              <Clipboard2Check />
-
-              &nbsp; LISTA DE EMPRESAS
-
-            </Link>
-
-          </li>
-
-        </ul>
-
-      </div>
+     <PageTabs modulo="empresa" />
 
 
       {/* ==========================================

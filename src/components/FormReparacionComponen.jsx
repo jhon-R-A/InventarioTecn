@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Form, InputGroup, Row, Col, Spinner } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import PageTabs from "./PageTabs.jsx";
 import {
   Wrench,
   PersonBadge,
@@ -198,41 +198,7 @@ function FormReparacion({ onSave }) {
           PESTAÑAS
       ========================================== */}
 
-      <div className="container-fluid">
-
-        <ul className="full-box list-unstyled page-nav-tabs">
-
-          <li>
-
-            <Link
-              to="/CreateReparacion"
-              className="active"
-            >
-
-             <PlusCircle />
-
-              &nbsp; AGREGAR REPARACIÓN
-
-            </Link>
-
-          </li>
-
-
-          <li>
-
-            <Link to="/TableReparacion" >
-                  
-              <Clipboard2Check />
-
-              &nbsp; LISTA DE REPARACIONES
-
-            </Link>
-
-          </li>
-
-        </ul>
-
-      </div>
+      <PageTabs modulo="reparacion" />
 
       <Form
         noValidate
