@@ -1,12 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Pagination,
-  Modal,
-  Toast,
-  ToastContainer,
-  Spinner,
-} from "react-bootstrap";
+import { Pagination } from "react-bootstrap";
+import Swal from "sweetalert2";
 
 import {
   Clipboard2Check,
@@ -14,11 +9,67 @@ import {
   ArrowRepeat,
   Trash,
   Image,
-  ExclamationTriangleFill,
-  CheckCircleFill,
-  ExclamationCircleFill,
-  X,Wrench
+  Wrench,
 } from "react-bootstrap-icons";
+
+// Configuración base de SweetAlert2 (mismos colores que el resto de la app)
+const Alerta = Swal.mixin({
+  confirmButtonColor: "#12202b",
+  cancelButtonColor: "#6c7a89",
+  reverseButtons: true,
+});
+
+/* ==========================================
+   DATOS ALEATORIOS (solo para pruebas)
+   Se usan cuando NO se pasa la prop "reparaciones".
+========================================== */
+const NOMBRES = [
+  "Carlos Alfaro", "María Gómez", "Juan Pérez", "Laura Ríos",
+  "Andrés Mora", "Sofía Castro", "Diego Vargas", "Camila Herrera",
+  "Felipe Ortiz", "Valentina Ruiz", "Mateo Salazar", "Daniela Peña",
+];
+
+const COMPONENTES = [
+  { nombre: "la fuente de poder", detalle: "por falla en el voltaje de salida" },
+  { nombre: "el disco duro", detalle: "por sectores dañados" },
+  { nombre: "el ventilador de la CPU", detalle: "por ruido y sobrecalentamiento" },
+  { nombre: "la pantalla", detalle: "por daño en el panel LCD" },
+  { nombre: "la batería", detalle: "porque ya no cargaba más del 20%" },
+  { nombre: "la memoria RAM", detalle: "por errores de memoria" },
+  { nombre: "el puerto de carga", detalle: "por conector flojo" },
+  { nombre: "la tarjeta madre", detalle: "por un corto en la placa" },
+  { nombre: "el teclado", detalle: "porque varias teclas no respondían" },
+  { nombre: "la tarjeta de video", detalle: "por artefactos en pantalla" },
+];
+
+const aleatorio = (lista) => lista[Math.floor(Math.random() * lista.length)];
+
+/* Imagen de ejemplo (SVG) con un color aleatorio */
+const fotoAleatoria = (etiqueta) => {
+  const hue = Math.floor(Math.random() * 360);
+  const svg =
+    `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120">` +
+    `<rect width="120" height="120" fill="hsl(${hue},45%,38%)"/>` +
+    `<text x="60" y="68" font-size="22" font-family="sans-serif" ` +
+    `text-anchor="middle" fill="white">${etiqueta}</text></svg>`;
+
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+};
+
+function generarDatos(cantidad = 37) {
+  return Array.from({ length: cantidad }, (_, i) => {
+    const componente = aleatorio(COMPONENTES);
+    const codigo = `TEC-${String(Math.floor(Math.random() * 300) + 1).padStart(4, "0")}`;
+
+    return {
+      id: i + 1,
+      nombre: aleatorio(NOMBRES),
+      codigo,
+      foto: fotoAleatoria(`#${i + 1}`),
+      descripcion: `Se reemplazó ${componente.nombre} ${componente.detalle}. Se probó el equipo y quedó funcionando correctamente.`,
+    };
+  });
+}
 
 /* Devuelve los números de página a mostrar: 1 … 4 5 6 … 12 */
 function getPageNumbers(current, total) {
@@ -40,16 +91,17 @@ function getPageNumbers(current, total) {
 
 /*
   Props (mismos nombres que TablaProduct):
-  - reparaciones: arreglo de { id, nombre, codigo, foto, descripcion }
-  - onActualizar(item): se llama al pulsar el botón de actualizar
-  - onEliminar(id):     se llama al CONFIRMAR la eliminación
+  - reparaciones: arreglo de { id, nombre, codigo, foto, descripcion }.
+                  Si NO se pasa, la tabla se llena con datos aleatorios.
+  - onActualizar(item): se llama si el usuario responde "Sí" al actualizar
+  - onEliminar(id):     se llama si el usuario responde "Sí" al eliminar
                         (puede ser async; si lanza error se muestra alerta roja)
   - pageSize:           filas por página (por defecto 5)
   - encabezado:         muestra el título y las pestañas (por defecto true)
   - crearPath / listaPath: rutas de las pestañas
 */
 function TablaReparaciones({
-  reparaciones = [],
+  reparaciones,
   onActualizar,
   onEliminar,
   pageSize = 5,
@@ -58,50 +110,98 @@ function TablaReparaciones({
   listaPath = "/TableReparacion",
 }) {
   const [page, setPage] = useState(1);
-  const [toDelete, setToDelete] = useState(null);
-  const [deleting, setDeleting] = useState(false);
-  const [toast, setToast] = useState(null);
-  const [showToast, setShowToast] = useState(false);
+
+  // Si no llegan datos por props, se generan (una sola vez) datos aleatorios
+  const esControlado = reparaciones !== undefined;
+  const [datosPrueba, setDatosPrueba] = useState(() =>
+    esControlado ? [] : generarDatos()
+  );
+  const datos = esControlado ? reparaciones : datosPrueba;
 
   /* ---------- Paginación ---------- */
-  const total = reparaciones.length;
+  const total = datos.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const current = Math.min(page, totalPages); // si se borra la última fila de una página, retrocede sola
   const startIndex = (current - 1) * pageSize;
-  const visible = reparaciones.slice(startIndex, startIndex + pageSize);
+  const visible = datos.slice(startIndex, startIndex + pageSize);
 
   const from = total === 0 ? 0 : startIndex + 1;
   const to = startIndex + visible.length;
 
   const goTo = (p) => setPage(Math.min(Math.max(1, p), totalPages));
 
-  /* ---------- Eliminar ---------- */
-  const openToast = (type, message) => {
-    setToast({ type, message });
-    setShowToast(true);
-  };
+  /* ==========================================
+     ALERTAS DE DECISIÓN (SÍ / NO)
+  ========================================== */
 
-  const confirmDelete = async () => {
-    if (!toDelete) return;
+  // Botón ACTUALIZAR
+  const confirmarActualizar = async (item) => {
+    const resultado = await Alerta.fire({
+      icon: "question",
+      title: "¿Actualizar reparación?",
+      text: `Se cargarán los datos de ${item.nombre} (${item.codigo}) para editarlos.`,
+      showCancelButton: true,
+      confirmButtonText: "Sí, actualizar",
+      cancelButtonText: "No",
+      confirmButtonColor: "#198754",
+    });
 
-    setDeleting(true);
+    if (!resultado.isConfirmed) return;
 
-    try {
-      await onEliminar?.(toDelete.id);
-      openToast(
-        "success",
-        `Se eliminó la reparación de ${toDelete.nombre} (${toDelete.codigo}).`
-      );
-    } catch (error) {
-      openToast("error", "No se pudo eliminar el registro. Inténtalo de nuevo.");
-    } finally {
-      setDeleting(false);
-      setToDelete(null);
+    if (onActualizar) {
+      onActualizar(item);
+    } else {
+      // Modo prueba: no hay formulario conectado
+      Alerta.fire({
+        icon: "info",
+        title: "Registro seleccionado",
+        text: "Pasa la prop onActualizar para abrir la edición.",
+        timer: 2200,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
     }
   };
 
-  const closeModal = () => {
-    if (!deleting) setToDelete(null);
+  // Botón ELIMINAR
+  const confirmarEliminar = async (item) => {
+    const resultado = await Alerta.fire({
+      icon: "warning",
+      title: "¿Eliminar reparación?",
+      text: `Se eliminará la reparación de ${item.nombre} (${item.codigo}). Esta acción no se puede deshacer.`,
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "No",
+      confirmButtonColor: "#c0392b",
+      focusCancel: true,
+    });
+
+    if (!resultado.isConfirmed) return;
+
+    try {
+      await onEliminar?.(item.id);
+
+      // Con datos de prueba, la tabla se encarga de quitar la fila
+      if (!esControlado) {
+        setDatosPrueba((prev) => prev.filter((r) => r.id !== item.id));
+      }
+
+      Alerta.fire({
+        icon: "success",
+        title: "¡Eliminado!",
+        text: `Se eliminó la reparación de ${item.nombre}.`,
+        timer: 1800,
+        timerProgressBar: true,
+        showConfirmButton: false,
+      });
+    } catch (error) {
+      Alerta.fire({
+        icon: "error",
+        title: "No se pudo eliminar",
+        text: "No se pudo eliminar el registro. Inténtalo de nuevo.",
+        confirmButtonText: "Entendido",
+      });
+    }
   };
 
   return (
@@ -129,7 +229,7 @@ function TablaReparaciones({
           <div className="container-fluid">
             <ul className="full-box list-unstyled page-nav-tabs">
               <li>
-                <Link to={crearPath}>
+                <Link to="/CreateReparacion">
                   <PlusCircle />
                   &nbsp; AGREGAR REPARACIÓN
                 </Link>
@@ -203,7 +303,7 @@ function TablaReparaciones({
                       className="btn btn-success btn-sm"
                       title="Actualizar reparación"
                       aria-label={`Actualizar reparación de ${item.nombre}`}
-                      onClick={() => onActualizar?.(item)}
+                      onClick={() => confirmarActualizar(item)}
                     >
                       <ArrowRepeat />
                     </button>
@@ -215,7 +315,7 @@ function TablaReparaciones({
                       className="btn btn-danger btn-sm"
                       title="Eliminar reparación"
                       aria-label={`Eliminar reparación de ${item.nombre}`}
-                      onClick={() => setToDelete(item)}
+                      onClick={() => confirmarEliminar(item)}
                     >
                       <Trash />
                     </button>
@@ -263,109 +363,6 @@ function TablaReparaciones({
           </Pagination>
         </footer>
       )}
-
-      {/* ==========================================
-          MODAL DE CONFIRMACIÓN
-      ========================================== */}
-      <Modal
-        show={Boolean(toDelete)}
-        onHide={closeModal}
-        centered
-        contentClassName="modal-confirm"
-      >
-        <Modal.Body>
-          <span className="modal-confirm-icon">
-            <ExclamationTriangleFill />
-          </span>
-
-          <h4>¿Eliminar esta reparación?</h4>
-
-          {toDelete && (
-            <div className="modal-confirm-item">
-              {toDelete.foto ? (
-                <img src={toDelete.foto} alt="" className="tabla-thumb" />
-              ) : (
-                <span className="tabla-thumb tabla-thumb-empty">
-                  <Image />
-                </span>
-              )}
-
-              <div>
-                <strong>{toDelete.nombre}</strong>
-                <span>{toDelete.codigo}</span>
-              </div>
-            </div>
-          )}
-
-          <p>Esta acción no se puede deshacer.</p>
-
-          <div className="modal-confirm-actions">
-            <button
-              type="button"
-              className="btn btn-cancelar"
-              onClick={closeModal}
-              disabled={deleting}
-            >
-              <X />
-              Cancelar
-            </button>
-
-            <button
-              type="button"
-              className="btn btn-eliminar"
-              onClick={confirmDelete}
-              disabled={deleting}
-            >
-              {deleting ? (
-                <>
-                  <Spinner animation="border" size="sm" />
-                  Eliminando...
-                </>
-              ) : (
-                <>
-                  <Trash />
-                  Sí, eliminar
-                </>
-              )}
-            </button>
-          </div>
-        </Modal.Body>
-      </Modal>
-
-      {/* ==========================================
-          ALERTA DE RESULTADO (éxito / error)
-      ========================================== */}
-      <ToastContainer
-        position="top-end"
-        className="position-fixed p-3 toast-zone"
-      >
-        <Toast
-          show={showToast}
-          onClose={() => setShowToast(false)}
-          delay={4500}
-          autohide
-          className={`toast-alert toast-${toast?.type ?? "success"}`}
-        >
-          <Toast.Body>
-            {toast?.type === "error" ? (
-              <ExclamationCircleFill />
-            ) : (
-              <CheckCircleFill />
-            )}
-
-            <span>{toast?.message}</span>
-
-            <button
-              type="button"
-              className="toast-close"
-              onClick={() => setShowToast(false)}
-              aria-label="Cerrar alerta"
-            >
-              <X />
-            </button>
-          </Toast.Body>
-        </Toast>
-      </ToastContainer>
     </div>
   );
 }

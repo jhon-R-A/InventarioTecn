@@ -255,61 +255,54 @@ table form {
   margin-bottom: 0;
 }
 
-/* Paginación */
-.page-link {
-  transition: all .2s ease-in-out;
-}
-.page-link:hover {
-  background-color: var(--color-three);
-  color: #FFF;
-}
-
-
-/* =========================================================
-   7. LOGIN
-   ========================================================= */
-.login-container {
-  width: 100vw;
-  height: 100vh;
+/* ---- Paginador ---- */
+.tabla-footer {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
   align-items: center;
-  background: #0575E6;
-  background: -webkit-linear-gradient(to right, #021B79, #0575E6);
-  background: linear-gradient(to right, #021B79, #0575E6);
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
 }
-.login-content {
-  width: 95%;
-  max-width: 320px;
-  height: auto;
-  border: 1px solid var(--border-color);
-  background-color: #FFF;
-  border-radius: 4px;
-  padding: 15px;
-  color: var(--accent-color);
+.tabla-info {
+  color: var(--nav-muted);
 }
-.btn-login {
-  display: block;
-  width: 90%;
-  margin: 30px auto 0;
-  padding: 10px 0;
-  border-radius: 3px;
-  background-color: transparent;
-  color: var(--accent-color);
-  border: 1px solid var(--accent-color);
-  transition: all .2s ease-out;
+.paginador {
+  gap: 6px;
 }
-.btn-login:hover {
-  background-color: var(--color-three);
-  border: 1px solid var(--color-three);
-  text-decoration: none;
+/* Pisa el hover rojo de la plantilla (.page-link:hover) */
+.paginador .page-link {
+  min-width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  padding: 0 10px;
+  font-family: var(--font-medium);
+  color: var(--nav-ink);
+  background: #fff;
+  border: 1px solid var(--nav-border);
+  border-radius: 10px !important;
+  box-shadow: none;
+}
+.paginador .page-link:hover {
+  color: var(--sb-accent-ink);
+  background: var(--sb-accent);
+  border-color: var(--sb-accent);
+}
+.paginador .page-item.active .page-link {
   color: #fff;
+  background: var(--sb-bg);
+  border-color: var(--sb-bg);
 }
-.btn-login:active,
-.btn-login:focus {
-  outline: none;
+.paginador .page-item.disabled .page-link {
+  color: #b8c5cf;
+  background: var(--page-bg);
+  border-color: var(--nav-border);
 }
-
+.paginador .page-link:focus-visible {
+  outline: 2px solid var(--sb-accent);
+  outline-offset: 2px;
+}
 
 /* =========================================================
    8. LAYOUT  (Baselayout.jsx)

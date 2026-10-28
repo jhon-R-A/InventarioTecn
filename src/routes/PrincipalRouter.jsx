@@ -8,6 +8,11 @@ import CreateProduct from "../pages/Tecnico/CrearProduct/CreateProduct.jsx";
 import TableProduct from "../pages/Tecnico/CrearProduct/TableProduct.jsx";
 import CreateReparac from "../pages/Reparaciones/CreateReparac.jsx";
 import TableReparacion from "../pages/Reparaciones/TableReparacion.jsx";
+import CreateEmpresa from "../pages/Empresa/CreateEmpresa.jsx";
+import TableEmpresa from "../pages/Empresa/TableEmpresa.jsx";
+import PerfilUser from "../pages/Perfil/PerfilUser.jsx";
+
+
 
 import Dashboard from "../pages/Dashboard.jsx";
 import Protected from "./routerprotected/ProtectedRoute.jsx";
@@ -71,9 +76,18 @@ function PrincipalRouter() {
                 path="/TableReparacion"
                 element={<TableReparacion />}
               />
-              
               {/* EMPRESA */}
+              <Route path="/CreateEmpresa" element={<CreateEmpresa />} />
+              <Route path="/TableEmpresa" element={<TableEmpresa />} />
+
+
+    
+              {/* REPORTES */}
               <Route path="/Reporte" element={<Reporte />} />
+
+              {/* PERFIL */}
+              <Route path="/Perfil" element={<PerfilUser />} />
+
             </Route>
           </Route>
         </Routes>

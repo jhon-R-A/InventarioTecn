@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Form, InputGroup, Row, Col, Spinner } from "react-bootstrap";
-
+import { Link } from "react-router-dom";
 import {
   Wrench,
   PersonBadge,
@@ -12,6 +12,8 @@ import {
   Eraser,
   CheckCircleFill,
   ExclamationCircleFill,
+  Clipboard2Check,
+  PlusCircle,
 } from "react-bootstrap-icons";
 
 const INITIAL_VALUES = {
@@ -172,18 +174,65 @@ function FormReparacion({ onSave }) {
   };
 
   return (
-    <div className="form-reparacion-wrap">
+    <div className="container-fluid" id="formulario-producto">
       {/* Encabezado */}
-      <header className="form-title">
-        <span className="form-title-icon">
-          <Wrench />
-        </span>
+       <div className="full-box page-header">
 
-        <div>
-          <h2>Registrar reparación</h2>
-          <p>Completa los datos del técnico y del componente cambiado.</p>
-        </div>
-      </header>
+        <h3 className="text-left">
+
+          <Wrench />
+
+          &nbsp; Registrar reparación
+
+        </h3>
+
+
+        <p className="text-justify">
+
+          Completa los datos del técnico y del componente cambiado.
+
+        </p>
+
+      </div>
+       {/* ==========================================
+          PESTAÑAS
+      ========================================== */}
+
+      <div className="container-fluid">
+
+        <ul className="full-box list-unstyled page-nav-tabs">
+
+          <li>
+
+            <Link
+              to="/CreateReparacion"
+              className="active"
+            >
+
+             <PlusCircle />
+
+              &nbsp; AGREGAR REPARACIÓN
+
+            </Link>
+
+          </li>
+
+
+          <li>
+
+            <Link to="/TableReparacion" >
+                  
+              <Clipboard2Check />
+
+              &nbsp; LISTA DE REPARACIONES
+
+            </Link>
+
+          </li>
+
+        </ul>
+
+      </div>
 
       <Form
         noValidate

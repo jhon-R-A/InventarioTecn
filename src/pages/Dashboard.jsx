@@ -1,12 +1,11 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import {
   Speedometer2,
   PeopleFill,
   BoxSeam,
-  CashStack,
   PersonBadge,
-  Shop,
+  Building,Wrench,
 } from "react-bootstrap-icons";
 
 /* Tamaño de los iconos de las tarjetas (antes 80px) */
@@ -30,41 +29,41 @@ const dashboard = () => {
         </div>
         {/* Content */}
         <div className="full-box tile-container">
-          <a href="/clientes/nuevo" className="tile">
-            <div className="tile-tittle"> Clientes </div>
+          <Link to="/CreateTecnico" className="tile">
+            <div className="tile-tittle"> TÉCNICOS </div>
             <div className="tile-icon">
               <i className="d-block mt-2 mb-2" style={tileIconStyle}><PeopleFill /></i>
               <p> 5 Registrados </p>
             </div>
-          </a>
-          <a href="/items/lista" className="tile">
-            <div className="tile-tittle"> Items </div>
+          </Link>
+          <Link to="/CreateProduct" className="tile">
+            <div className="tile-tittle"> PRODUCTOS </div>
             <div className="tile-icon">
               <i className="d-block mt-2 mb-2" style={tileIconStyle}><BoxSeam /></i>
               <p> 9 Registrados </p>
             </div>
-          </a>
-          <a href="/prestamos/lista" className="tile">
-            <div className="tile-tittle"> Prestamos </div>
+          </Link>
+          <Link to="/CreateReparacion" className="tile">
+            <div className="tile-tittle"> REPARACIONES </div>
             <div className="tile-icon">
-              <i className="d-block mt-2 mb-2" style={tileIconStyle}><CashStack /></i>
+              <i className="d-block mt-2 mb-2" style={tileIconStyle}><Wrench /></i>
               <p> 10 Registrados </p>
             </div>
-          </a>
-          <a href="/usuarios/lista" className="tile">
-            <div className="tile-tittle"> Usuarios </div>
+          </Link>
+          <Link to="/Reporte" className="tile">
+            <div className="tile-tittle"> INFORMES </div>
             <div className="tile-icon">
               <i className="d-block mt-2 mb-2" style={tileIconStyle}><PersonBadge /></i>
               <p> 50 Registrados </p>
             </div>
-          </a>
-          <a href="/empresa" className="tile">
+          </Link>
+          <Link to="/createEmpresa" className="tile">
             <div className="tile-tittle"> Empresa </div>
             <div className="tile-icon">
-              <i className="d-block mt-2 mb-2" style={tileIconStyle}><Shop /></i>
+              <i className="d-block mt-2 mb-2" style={tileIconStyle}><Building /></i>
               <p> 1 Registrada </p>
             </div>
-          </a>
+          </Link>
         </div>
       </section>
     </>

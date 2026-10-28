@@ -1,4 +1,12 @@
 import { useState } from "react";
+import Swal from "sweetalert2";
+
+// Configuración base de SweetAlert2 (mismos colores que el resto de la app)
+const Alerta = Swal.mixin({
+  confirmButtonColor: "#12202b",
+  cancelButtonColor: "#6c7a89",
+  reverseButtons: true,
+});
 
 function TablaComponent() {
 
@@ -55,11 +63,24 @@ function TablaComponent() {
 
     e.preventDefault();
 
+    // Alerta: faltan las fechas
     if (!fechaInicio || !fechaFin) {
 
-      alert(
-        "Seleccione la fecha inicial y la fecha final"
-      );
+      Alerta.fire({
+        icon: "warning",
+        title: "Fechas incompletas",
+        text: "Seleccione la fecha inicial y la fecha final",
+        confirmButtonText: "Entendido"
+      }).then(() => {
+
+        // Lleva el cursor a la primera fecha vacía
+        const idVacio = !fechaInicio
+          ? "fechaInicio"
+          : "fechaFin";
+
+        document.getElementById(idVacio)?.focus();
+
+      });
 
       return;
     }
@@ -94,6 +115,32 @@ function TablaComponent() {
 
 
     setResultados(filtrados);
+
+
+    // Alerta: resultado de la búsqueda
+    if (filtrados.length === 0) {
+
+      Alerta.fire({
+        icon: "info",
+        title: "Sin resultados",
+        text: "No hay información para los filtros seleccionados",
+        confirmButtonText: "Entendido"
+      });
+
+    } else {
+
+      Alerta.fire({
+        icon: "success",
+        title: "¡Reporte generado!",
+        text: `Se encontraron ${filtrados.length} ${
+          filtrados.length === 1 ? "registro" : "registros"
+        }`,
+        timer: 1800,
+        timerProgressBar: true,
+        showConfirmButton: false
+      });
+
+    }
   };
 
 
@@ -434,4 +481,3 @@ function TablaComponent() {
 }
 
 export default TablaComponent;
-

@@ -16,6 +16,11 @@ const Alerta = Swal.mixin({
   reverseButtons: true
 });
 
+
+// Largo mínimo de la contraseña
+const MIN_CONTRASENA = 6;
+
+
 function FormularioTenicComponen() {
 
   // ==========================================
@@ -24,12 +29,39 @@ function FormularioTenicComponen() {
 
   const [nombre, setNombre] = useState("");
   const [codigo, setCodigo] = useState("");
+  const [contrasena, setContrasena] = useState("");
 
   // Lista de técnicos
   const [tecnicos, setTecnicos] = useState([]);
 
   // Técnico que se está editando
   const [tecnicoEditando, setTecnicoEditando] = useState(null);
+
+
+  // ==========================================
+  // FUNCIONES AUXILIARES
+  // ==========================================
+
+  // Lleva el cursor a un campo
+  const enfocar = (id) => {
+
+    document.getElementById(id)?.focus();
+
+  };
+
+
+  // Limpiar formulario
+  const limpiarFormulario = () => {
+
+    setNombre("");
+
+    setCodigo("");
+
+    setContrasena("");
+
+    setTecnicoEditando(null);
+
+  };
 
 
   // ==========================================
@@ -40,15 +72,43 @@ function FormularioTenicComponen() {
 
     e.preventDefault();
 
-    // Validar campos
-    if (!nombre.trim() || !codigo.trim()) {
+
+    // ------------------------------------------
+    // Validar campos vacíos
+    // ------------------------------------------
+
+    if (!nombre.trim() || !codigo.trim() || !contrasena) {
 
       Alerta.fire({
         icon: "warning",
         title: "Campos incompletos",
         text: "Todos los campos son obligatorios",
         confirmButtonText: "Entendido"
+      }).then(() => {
+
+        // Lleva el cursor al primer campo vacío
+        if (!nombre.trim()) enfocar("tecnico_nombre");
+        else if (!codigo.trim()) enfocar("tecnico_codigo");
+        else enfocar("tecnico_contrasena");
+
       });
+
+      return;
+    }
+
+
+    // ------------------------------------------
+    // Validar contraseña
+    // ------------------------------------------
+
+    if (contrasena.length < MIN_CONTRASENA) {
+
+      Alerta.fire({
+        icon: "error",
+        title: "Contraseña muy corta",
+        text: `La contraseña debe tener al menos ${MIN_CONTRASENA} caracteres`,
+        confirmButtonText: "Entendido"
+      }).then(() => enfocar("tecnico_contrasena"));
 
       return;
     }
@@ -67,7 +127,8 @@ function FormularioTenicComponen() {
           return {
             ...tecnico,
             nombre: nombre,
-            codigo: codigo
+            codigo: codigo,
+            contrasena: contrasena
           };
 
         }
@@ -103,7 +164,9 @@ function FormularioTenicComponen() {
 
         nombre: nombre,
 
-        codigo: codigo
+        codigo: codigo,
+
+        contrasena: contrasena
 
       };
 
@@ -132,21 +195,6 @@ function FormularioTenicComponen() {
 
 
   // ==========================================
-  // LIMPIAR FORMULARIO
-  // ==========================================
-
-  const limpiarFormulario = () => {
-
-    setNombre("");
-
-    setCodigo("");
-
-    setTecnicoEditando(null);
-
-  };
-
-
-  // ==========================================
   // EDITAR TÉCNICO
   // ==========================================
 
@@ -155,6 +203,8 @@ function FormularioTenicComponen() {
     setNombre(tecnico.nombre);
 
     setCodigo(tecnico.codigo);
+
+    setContrasena(tecnico.contrasena);
 
     setTecnicoEditando(tecnico.id);
 
@@ -199,7 +249,7 @@ function FormularioTenicComponen() {
 
 
     const tecnicosFiltrados = tecnicos.filter(
-      (tecnico) => tecnico.id !== id
+      (item) => item.id !== id
     );
 
 
@@ -341,7 +391,7 @@ function FormularioTenicComponen() {
                     NOMBRE
                 ================================== */}
 
-                <div className="col-12 col-md-6">
+                <div className="col-12 col-md-4">
 
                   <div className="form-group">
 
@@ -374,7 +424,7 @@ function FormularioTenicComponen() {
                     CÓDIGO
                 ================================== */}
 
-                <div className="col-12 col-md-6">
+                <div className="col-12 col-md-4">
 
                   <div className="form-group">
 
@@ -395,6 +445,40 @@ function FormularioTenicComponen() {
                       value={codigo}
                       onChange={(e) =>
                         setCodigo(e.target.value)
+                      }
+                    />
+
+                  </div>
+
+                </div>
+
+
+                {/* ==================================
+                    CONTRASEÑA
+                ================================== */}
+
+                <div className="col-12 col-md-4">
+
+                  <div className="form-group">
+
+                    <label
+                      htmlFor="tecnico_contrasena"
+                      className="bmd-label-floating"
+                    >
+                      Contraseña
+                    </label>
+
+
+                    <input
+                      type="password"
+                      className="form-control"
+                      name="tecnico_contrasena"
+                      id="tecnico_contrasena"
+                      maxLength="30"
+                      autoComplete="new-password"
+                      value={contrasena}
+                      onChange={(e) =>
+                        setContrasena(e.target.value)
                       }
                     />
 
@@ -461,9 +545,6 @@ function FormularioTenicComponen() {
         </form>
 
       </div>
-
-
-      
 
 
     </section>
